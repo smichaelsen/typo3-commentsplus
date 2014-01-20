@@ -1,17 +1,16 @@
 <?php
 
- 
-class Tx_Commentsplus_MVC_Controller_ActionController extends Tx_Extbase_MVC_Controller_ActionController{
+class Tx_Commentsplus_MVC_Controller_ActionController extends Tx_Extbase_MVC_Controller_ActionController {
 
-    /**
+	/**
 	 * @var Tx_Commentsplus_Domain_Repository_CommentRepository
 	 */
 	protected $commentRepository;
 
-    /**
-     * @var Tx_Commentsplus_MVC_Controller_ErrorContainer
-     */
-    protected $errorContainer;
+	/**
+	 * @var Tx_Commentsplus_MVC_Controller_ErrorContainer
+	 */
+	protected $errorContainer;
 
 	/**
 	 * @var Tx_Commentsplus_Utility_NotificationService
@@ -33,13 +32,13 @@ class Tx_Commentsplus_MVC_Controller_ActionController extends Tx_Extbase_MVC_Con
 		$this->commentRepository = $commentRepository;
 	}
 
-    /**
-     * @param Tx_Commentsplus_MVC_Controller_ErrorContainer $errorContainer
-     * @return void
-     */
-    public function injectErrorContainer(Tx_Commentsplus_MVC_Controller_ErrorContainer $errorContainer) {
-        $this->errorContainer = $errorContainer;
-    }
+	/**
+	 * @param Tx_Commentsplus_MVC_Controller_ErrorContainer $errorContainer
+	 * @return void
+	 */
+	public function injectErrorContainer(Tx_Commentsplus_MVC_Controller_ErrorContainer $errorContainer) {
+		$this->errorContainer = $errorContainer;
+	}
 
 	/**
 	 * @param Tx_Commentsplus_Utility_NotificationService $notificationService
@@ -66,34 +65,34 @@ class Tx_Commentsplus_MVC_Controller_ActionController extends Tx_Extbase_MVC_Con
 	protected function errorAction() {
 		$this->request->setErrors($this->argumentsMappingResults->getErrors());
 		$this->clearCacheOnError();
-        $this->addNestedMessageFromErrorObjectToErrorContainer($this->argumentsMappingResults);
+		$this->addNestedMessageFromErrorObjectToErrorContainer($this->argumentsMappingResults);
 
 		$referrer = $this->request->getArgument('__referrer');
 		$this->forward($referrer['actionName'], $referrer['controllerName'], $referrer['extensionName'], $this->request->getArguments());
 	}
 
-    /**
-     * @param Object $error
-     * @return string
-     */
-    protected function addNestedMessageFromErrorObjectToErrorContainer($error) {
-        $subErrors = array();
-        if(method_exists($error, 'getErrors')) {
-            $subErrors = $error->getErrors();
-        }
-        if(count($subErrors)) {
-            foreach($subErrors as $subError) {
-                $this->addNestedMessageFromErrorObjectToErrorContainer($subError);
-            }
-        } else {
-            $this->errorContainer->addError($error);
-        }
-    }
+	/**
+	 * @param Object $error
+	 * @return string
+	 */
+	protected function addNestedMessageFromErrorObjectToErrorContainer($error) {
+		$subErrors = array();
+		if (method_exists($error, 'getErrors')) {
+			$subErrors = $error->getErrors();
+		}
+		if (count($subErrors)) {
+			foreach ($subErrors as $subError) {
+				$this->addNestedMessageFromErrorObjectToErrorContainer($subError);
+			}
+		} else {
+			$this->errorContainer->addError($error);
+		}
+	}
 
-    /**
+	/**
 	 * Taken from EXT:blog_example
-     *
-     * helper function to render localized flashmessages
+	 *
+	 * helper function to render localized flashmessages
 	 *
 	 * @param string $action
 	 * @param integer $severity optional severity code. One of the t3lib_FlashMessage constants

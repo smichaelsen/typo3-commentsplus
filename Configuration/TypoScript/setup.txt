@@ -9,6 +9,14 @@ plugin.tx_commentsplus {
 		storagePid.data = TSFE:id
 	}
 	settings {
+		commentedObject {
+			10 = TEXT
+			10 {
+				data = TSFE:id
+				intval = 1
+				wrap = &pages=|
+			}
+		}
 		notification {
 			newCommentToApprove {
 				enable = 1

@@ -34,6 +34,24 @@
 class Tx_Commentsplus_Controller_CommentController extends Tx_Commentsplus_MVC_Controller_ActionController {
 
 	/**
+	 * @var tslib_cObj
+	 */
+	protected $contentObject;
+
+	/**
+	 * @var Tx_Extbase_Service_TypoScriptService
+	 * @inject
+	 */
+	protected $typoScriptService;
+
+	/**
+	 *
+	 */
+	public function initializeAction() {
+		$this->contentObject = $GLOBALS['TSFE']->cObj;
+	}
+
+	/**
 	 * action list
 	 *
 	 * @param Tx_Commentsplus_Domain_Model_Comment $newComment
@@ -41,7 +59,8 @@ class Tx_Commentsplus_Controller_CommentController extends Tx_Commentsplus_MVC_C
 	 * @dontvalidate $newComment
 	 */
 	public function listAction(Tx_Commentsplus_Domain_Model_Comment $newComment = NULL) {
-		$comments = $this->commentRepository->findAll();
+		$commentedObject = $this->contentObject->cObjGetSingle('COA', $this->typoScriptService->convertPlainArrayToTypoScriptArray($this->settings['commentedObject']));
+		$comments = $this->commentRepository->findByCommentedObject($commentedObject);
 		$this->view->assign('comments', $comments);
 		$this->view->assign('newComment', $newComment);
 		$this->view->assign('errors', $this->errorContainer->getErrors());
@@ -54,9 +73,11 @@ class Tx_Commentsplus_Controller_CommentController extends Tx_Commentsplus_MVC_C
 	 * @return void
 	 */
 	public function createAction(Tx_Commentsplus_Domain_Model_Comment $newComment) {
+		$commentedObject = $this->contentObject->cObjGetSingle('COA', $this->typoScriptService->convertPlainArrayToTypoScriptArray($this->settings['commentedObject']));
 		$this->reputationSystem->setSettings($this->settings);
 		$this->notificationService->setSettings($this->settings);
 		$newComment->setTime(new DateTime());
+		$newComment->setCommentedObject($commentedObject);
 		$newComment->setApproved($this->reputationSystem->determineApprovedStatus($newComment));
 		$newComment->_setProperty('_languageUid', intval($GLOBALS['TSFE']->sys_language_uid));
 		if ($this->settings['saveIP']) {
@@ -67,7 +88,39 @@ class Tx_Commentsplus_Controller_CommentController extends Tx_Commentsplus_MVC_C
 			$this->addFlashMessage('moderation', t3lib_FlashMessage::INFO);
 		}
 		$this->commentRepository->add($newComment);
-		$this->redirect('list');
+		$this->redirectWithQueryString('list');
+	}
+
+	/**
+	 * @param string $actionName
+	 * @param null $controllerName
+	 * @param null $extensionName
+	 * @param array $arguments
+	 * @param null $pageUid
+	 * @param int $delay
+	 * @param int $statusCode
+	 * @param bool $addQueryString
+	 * @throws Tx_Extbase_MVC_Exception_UnsupportedRequestType
+	 */
+	protected function redirectWithQueryString($actionName, $controllerName = NULL, $extensionName = NULL, array $arguments = NULL, $pageUid = NULL, $delay = 0, $statusCode = 303, $addQueryString = TRUE) {
+		if (!$this->request instanceof Tx_Extbase_MVC_Web_Request) throw new Tx_Extbase_MVC_Exception_UnsupportedRequestType('redirect() only supports web requests.', 1220539734);
+
+		if ($controllerName === NULL) {
+			$controllerName = $this->request->getControllerName();
+		}
+
+		$uri = $this->uriBuilder
+			->reset()
+			->setTargetPageUid($pageUid)
+			->setCreateAbsoluteUri(TRUE)
+			->setAbsoluteUriScheme(t3lib_div::getIndpEnv('TYPO3_SSL') ? 'https' : NULL)
+			->setAddQueryString($addQueryString)
+			->setArgumentsToBeExcludedFromQueryString(array(
+				'tx_commentsplus_comments[action]',
+				'tx_commentsplus_comments[controller]',
+			))
+			->uriFor($actionName, $arguments, $controllerName, $extensionName);
+		$this->redirectToUri($uri, $delay, $statusCode);
 	}
 
 }

@@ -51,6 +51,11 @@ class Tx_Commentsplus_Domain_Model_Comment extends Tx_Extbase_DomainObject_Abstr
 	}
 
 	/**
+	 * @var string
+	 */
+	protected $commentedObject;
+
+	/**
 	 * @var integer
 	 */
 	protected $numberOfGenuineComments;
@@ -198,6 +203,20 @@ class Tx_Commentsplus_Domain_Model_Comment extends Tx_Extbase_DomainObject_Abstr
 	 */
 	public function getIp() {
 		return $this->ip;
+	}
+
+	/**
+	 * @param string $commentedObject
+	 */
+	public function setCommentedObject($commentedObject) {
+		$this->commentedObject = $commentedObject;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCommentedObject() {
+		return $this->commentedObject;
 	}
 
 	/**

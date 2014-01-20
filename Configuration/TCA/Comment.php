@@ -1,5 +1,5 @@
 <?php
-if (!defined ('TYPO3_MODE')) {
+if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
@@ -27,7 +27,7 @@ $TCA['tx_commentsplus_domain_model_comment'] = array(
 			'canNotCollapse' => 1,
 			'showitem' => 'time, --linebreak--, message'
 		),
-        'spam' => array(
+		'spam' => array(
 			'canNotCollapse' => 1,
 			'showitem' => 'approved, --linebreak--, reputation'
 		),
@@ -44,14 +44,6 @@ $TCA['tx_commentsplus_domain_model_comment'] = array(
 					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0)
 				),
 			),
-		),
-		't3ver_label' => array(
-			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.versionLabel',
-			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'max' => 255,
-			)
 		),
 		'hidden' => array(
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
@@ -74,21 +66,21 @@ $TCA['tx_commentsplus_domain_model_comment'] = array(
 			'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.name',
 			'config' => array(
 				'type' => 'input',
-                'size' => 20
+				'size' => 20
 			)
 		),
 		'email' => array(
 			'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.email',
 			'config' => array(
 				'type' => 'input',
-                'size' => 20,
+				'size' => 20,
 			)
 		),
-        'website' => array(
+		'website' => array(
 			'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.website',
 			'config' => array(
 				'type' => 'input',
-                'size' => 20,
+				'size' => 20,
 			)
 		),
 		'message' => array(
@@ -97,15 +89,15 @@ $TCA['tx_commentsplus_domain_model_comment'] = array(
 				'type' => 'text'
 			)
 		),
-        'ip' => array(
-            'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.ip',
+		'ip' => array(
+			'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.ip',
 			'config' => array(
 				'type' => 'none',
-                'size' => 20,
+				'size' => 20,
 			)
-        ),
-        'approved' => array(
-            'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.approved',
+		),
+		'approved' => array(
+			'label' => 'LLL:EXT:commentsplus/Resources/Private/Language/locallang_db.xml:tx_commentsplus_domain_model_comment.approved',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
@@ -126,12 +118,18 @@ $TCA['tx_commentsplus_domain_model_comment'] = array(
 					),
 				)
 			)
-        ),
+		),
 		'reputation' => array(
 			'label' => 'Reputation',
-			'config' => array (
+			'config' => array(
 				'type' => 'user',
 				'userFunc' => 'EXT:commentsplus/Classes/Utility/Userfunc.php:Tx_Commentsplus_Utility_Userfunc->reputationField',
+			),
+		),
+		'commented_object' => array(
+			'label' => 'Commented Object',
+			'config' => array(
+				'type' => 'input',
 			),
 		),
 	),
