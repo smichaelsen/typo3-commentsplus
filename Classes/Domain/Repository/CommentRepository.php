@@ -24,7 +24,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  *
  *
@@ -34,50 +33,50 @@
  */
 class Tx_Commentsplus_Domain_Repository_CommentRepository extends Tx_Extbase_Persistence_Repository {
 
-    /**
-     * Returns all objects of this repository
-     *
-     * @return array An array of objects, empty if no objects found
-     * @api
-     */
-    public function findAll() {
-        $query = $this->createQuery();
+	/**
+	 * Returns all objects of this repository
+	 *
+	 * @return array An array of objects, empty if no objects found
+	 * @api
+	 */
+	public function findAll() {
+		$query = $this->createQuery();
 
-        $querySettings = $query->getQuerySettings()->setRespectSysLanguage(FALSE);
-        $query->setQuerySettings($querySettings);
+		$querySettings = $query->getQuerySettings()->setRespectSysLanguage(FALSE);
+		$query->setQuerySettings($querySettings);
 
-        $constraint = $query->logicalAnd(
-            $this->getSysLanguageConstraint($query),
-            $query->equals('approved', 1)
-        );
-        return $query->matching($constraint)->execute();
-    }
+		$constraint = $query->logicalAnd(
+			$this->getSysLanguageConstraint($query),
+			$query->equals('approved', 1)
+		);
+		return $query->matching($constraint)->execute();
+	}
 
-    /**
-     * @param $email
-     * @return int
-     */
-    public function countApprovedByEmail($email) {
-        $query = $this->createQuery();
-        $constraint = $query->logicalAnd(
-            $query->equals('email', $email),
-            $query->equals('approved', TRUE)
-        );
-        return $query->matching($constraint)->execute()->count();
-    }
+	/**
+	 * @param $email
+	 * @return int
+	 */
+	public function countApprovedByEmail($email) {
+		$query = $this->createQuery();
+		$constraint = $query->logicalAnd(
+			$query->equals('email', $email),
+			$query->equals('approved', TRUE)
+		);
+		return $query->matching($constraint)->execute()->count();
+	}
 
-    /**
-     * @param Tx_Extbase_Persistence_QueryInterface $query
-     * @return Tx_Extbase_Persistence_QOM_ComparisonInterface
-     */
-    private function getSysLanguageConstraint(Tx_Extbase_Persistence_QueryInterface $query) {
-        if (intval($GLOBALS['TSFE']->sys_language_uid) > 0) {
-            $constraint = $query->equals('sys_language_uid', intval($GLOBALS['TSFE']->sys_language_uid));
-        } else {
-            $constraint = $query->in('sys_language_uid', array(0, -1));
-        }
-        return $constraint;
-    }
+	/**
+	 * @param Tx_Extbase_Persistence_QueryInterface $query
+	 * @return Tx_Extbase_Persistence_QOM_ComparisonInterface
+	 */
+	private function getSysLanguageConstraint(Tx_Extbase_Persistence_QueryInterface $query) {
+		if (intval($GLOBALS['TSFE']->sys_language_uid) > 0) {
+			$constraint = $query->equals('sys_language_uid', intval($GLOBALS['TSFE']->sys_language_uid));
+		} else {
+			$constraint = $query->in('sys_language_uid', array(0, -1));
+		}
+		return $constraint;
+	}
 
 }
 

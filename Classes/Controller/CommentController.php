@@ -33,43 +33,42 @@
  */
 class Tx_Commentsplus_Controller_CommentController extends Tx_Commentsplus_MVC_Controller_ActionController {
 
-    /**
-     * action list
-     *
-     * @param Tx_Commentsplus_Domain_Model_Comment $newComment
-     * @return void
-     * @dontvalidate $newComment
-     */
-    public function listAction(Tx_Commentsplus_Domain_Model_Comment $newComment = NULL) {
-        $comments = $this->commentRepository->findAll();
-        $this->view->assign('comments', $comments);
-        $this->view->assign('newComment', $newComment);
-        $this->view->assign('errors', $this->errorContainer->getErrors());
-    }
+	/**
+	 * action list
+	 *
+	 * @param Tx_Commentsplus_Domain_Model_Comment $newComment
+	 * @return void
+	 * @dontvalidate $newComment
+	 */
+	public function listAction(Tx_Commentsplus_Domain_Model_Comment $newComment = NULL) {
+		$comments = $this->commentRepository->findAll();
+		$this->view->assign('comments', $comments);
+		$this->view->assign('newComment', $newComment);
+		$this->view->assign('errors', $this->errorContainer->getErrors());
+	}
 
-    /**
-     * action create
-     *
-     * @param Tx_Commentsplus_Domain_Model_Comment $newComment
-     * @return void
-     */
-    public function createAction(Tx_Commentsplus_Domain_Model_Comment $newComment) {
+	/**
+	 * action create
+	 *
+	 * @param Tx_Commentsplus_Domain_Model_Comment $newComment
+	 * @return void
+	 */
+	public function createAction(Tx_Commentsplus_Domain_Model_Comment $newComment) {
 		$this->reputationSystem->setSettings($this->settings);
 		$this->notificationService->setSettings($this->settings);
-        $newComment->setTime(new DateTime());
+		$newComment->setTime(new DateTime());
 		$newComment->setApproved($this->reputationSystem->determineApprovedStatus($newComment));
 		$newComment->_setProperty('_languageUid', intval($GLOBALS['TSFE']->sys_language_uid));
-		if($this->settings['saveIP']) {
+		if ($this->settings['saveIP']) {
 			$newComment->setIp($_SERVER['REMOTE_ADDR']);
 		}
 		$this->notificationService->notify($newComment);
-		if($newComment->getApproved() == Tx_Commentsplus_Domain_Model_Comment::APPROVAL_STATUS_NOTAPPROVED) {
-            $this->addFlashMessage('moderation', t3lib_FlashMessage::INFO);
-        }
-        $this->commentRepository->add($newComment);
-        $this->redirect('list');
-    }
-
+		if ($newComment->getApproved() == Tx_Commentsplus_Domain_Model_Comment::APPROVAL_STATUS_NOTAPPROVED) {
+			$this->addFlashMessage('moderation', t3lib_FlashMessage::INFO);
+		}
+		$this->commentRepository->add($newComment);
+		$this->redirect('list');
+	}
 
 }
 

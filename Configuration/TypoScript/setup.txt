@@ -9,37 +9,37 @@ plugin.tx_commentsplus {
 		storagePid.data = TSFE:id
 	}
 	settings {
-	    notification {
-	    	newCommentToApprove {
-	    		enable = 1
-	    		email = {$plugin.tx_commentsplus.settings.notification.newCommentToApprove.email}
-	    		subject = New Comment to approve
-	    		message.cObject = COA
-	    		message.cObject {
-	    			10 = TEXT
-	    			10.value = {field:name} wrote a comment on Page
-	    			10.noTrimWrap = || |
-	    			10.insertData = 1
-	    			20 = TEXT
-	    			20.data = page:title
-	    			20.typolink.parameter.data = TSFE:id
-	    			20.typolink.additionalParams = TEXT
-	    			20.typolink.additionalParams.value = &L={TSFE:sys_language_uid}
+		notification {
+			newCommentToApprove {
+				enable = 1
+				email = {$plugin.tx_commentsplus.settings.notification.newCommentToApprove.email}
+				subject = New Comment to approve
+				message.cObject = COA
+				message.cObject {
+					10 = TEXT
+					10.value = {field:name} wrote a comment on Page
+					10.noTrimWrap = || |
+					10.insertData = 1
+					20 = TEXT
+					20.data = page:title
+					20.typolink.parameter.data = TSFE:id
+					20.typolink.additionalParams = TEXT
+					20.typolink.additionalParams.value = &L={TSFE:sys_language_uid}
 					20.typolink.additionalParams.insertData = 1
-	    		}
-	    		message.insertData = 1
-	    		fromEmail = example@test.com
-	    		fromName = CommentsPlus
-	    	}
-	    }
-	    spam {
-	        moderateComments = 1
-	        autoApproveAfterGenuineComments = 3
-	        followLinksAfterGenuineComments = 5
-	        honeypotField = 1
-	    }
-	    saveIP = 0
-	    relativetime = 0
+				}
+				message.insertData = 1
+				fromEmail = example@test.com
+				fromName = CommentsPlus
+			}
+		}
+		spam {
+			moderateComments = 1
+			autoApproveAfterGenuineComments = 3
+			followLinksAfterGenuineComments = 5
+			honeypotField = 1
+		}
+		saveIP = 0
+		relativetime = 0
 	}
 }
 
