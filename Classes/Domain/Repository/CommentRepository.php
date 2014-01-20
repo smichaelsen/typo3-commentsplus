@@ -47,7 +47,7 @@ class Tx_Commentsplus_Domain_Repository_CommentRepository extends Tx_Extbase_Per
 
 		$constraint = $query->logicalAnd(
 			$this->getSysLanguageConstraint($query),
-			$query->equals('approved', 1)
+			$query->equals('approved', Tx_Commentsplus_Domain_Model_Comment::APPROVAL_STATUS_APPROVED)
 		);
 		return $query->matching($constraint)->execute();
 	}
@@ -60,7 +60,7 @@ class Tx_Commentsplus_Domain_Repository_CommentRepository extends Tx_Extbase_Per
 		$query = $this->createQuery();
 		$constraint = $query->logicalAnd(
 			$query->equals('email', $email),
-			$query->equals('approved', TRUE)
+			$query->equals('approved', Tx_Commentsplus_Domain_Model_Comment::APPROVAL_STATUS_APPROVED)
 		);
 		return $query->matching($constraint)->execute()->count();
 	}
@@ -76,6 +76,21 @@ class Tx_Commentsplus_Domain_Repository_CommentRepository extends Tx_Extbase_Per
 			$constraint = $query->in('sys_language_uid', array(0, -1));
 		}
 		return $constraint;
+	}
+
+	/**
+	 * @param string $commentedObject
+	 * @return array
+	 */
+	public function findByCommentedObject($commentedObject) {
+		$query = $this->createQuery();
+		$querySettings = $query->getQuerySettings()->setRespectSysLanguage(FALSE);
+		$query->setQuerySettings($querySettings);
+		$constraint = $query->logicalAnd(
+			$query->equals('commentedObject', $commentedObject),
+			$query->equals('approved', Tx_Commentsplus_Domain_Model_Comment::APPROVAL_STATUS_APPROVED)
+		);
+		return $query->matching($constraint)->execute();
 	}
 
 }
