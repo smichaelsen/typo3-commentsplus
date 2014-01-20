@@ -24,7 +24,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * A Comment
  *
@@ -34,7 +33,7 @@
  */
 class Tx_Commentsplus_Domain_Model_Comment extends Tx_Extbase_DomainObject_AbstractEntity {
 
-    const APPROVAL_STATUS_NOTAPPROVED = 0;
+	const APPROVAL_STATUS_NOTAPPROVED = 0;
 	const APPROVAL_STATUS_APPROVED = 1;
 	const APPROVAL_STATUS_SPAM = -1;
 
@@ -57,170 +56,170 @@ class Tx_Commentsplus_Domain_Model_Comment extends Tx_Extbase_DomainObject_Abstr
 	protected $numberOfGenuineComments;
 
 	/**
-     * @var DateTime
-     */
-    protected $time;
+	 * @var DateTime
+	 */
+	protected $time;
 
-    /**
-     * @var string
-     * @validate Tx_Commentsplus_Domain_Validator_NameNotEmptyValidator
-     */
-    protected $name;
+	/**
+	 * @var string
+	 * @validate Tx_Commentsplus_Domain_Validator_NameNotEmptyValidator
+	 */
+	protected $name;
 
-    /**
-     * @var string E-Mail of the Author
-     * @validate EmailAddress
-     */
-    protected $email;
+	/**
+	 * @var string E-Mail of the Author
+	 * @validate EmailAddress
+	 */
+	protected $email;
 
-    /**
-     * @var string Website of the Author
-     * @validate Tx_Commentsplus_Domain_Validator_UrlValidator
-     */
-    protected $website;
+	/**
+	 * @var string Website of the Author
+	 * @validate Tx_Commentsplus_Domain_Validator_UrlValidator
+	 */
+	protected $website;
 
-    /**
-     * @var string
-     * @validate Tx_Commentsplus_Domain_Validator_MessageNotEmptyValidator
-     */
-    protected $message;
+	/**
+	 * @var string
+	 * @validate Tx_Commentsplus_Domain_Validator_MessageNotEmptyValidator
+	 */
+	protected $message;
 
-    /**
-     * @var string
-     */
-    protected $ip;
+	/**
+	 * @var string
+	 */
+	protected $ip;
 
-    /**
-     * @var bool
-     */
-    protected $approved;
+	/**
+	 * @var bool
+	 */
+	protected $approved;
 
-    /**
-     * @param string $email
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setEmail($email) {
-        $this->email = $email;
-        return $this;
-    }
+	/**
+	 * @param string $email
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setEmail($email) {
+		$this->email = $email;
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getEmail() {
-        return $this->email;
-    }
+	/**
+	 * @return string
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
 
-    /**
-     * @param string $message
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setMessage($message) {
-        $this->message = $message;
-        return $this;
-    }
+	/**
+	 * @param string $message
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setMessage($message) {
+		$this->message = $message;
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getMessage() {
-        return htmlspecialchars($this->message);
-    }
+	/**
+	 * @return string
+	 */
+	public function getMessage() {
+		return htmlspecialchars($this->message);
+	}
 
-    /**
-     * @param string $name
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setName($name) {
-        $this->name = $name;
-        return $this;
-    }
+	/**
+	 * @param string $name
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setName($name) {
+		$this->name = $name;
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getName() {
-        return htmlspecialchars($this->name);
-    }
+	/**
+	 * @return string
+	 */
+	public function getName() {
+		return htmlspecialchars($this->name);
+	}
 
-    /**
-     * @param DateTime $time
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setTime($time) {
-        $this->time = $time;
-        return $this;
-    }
+	/**
+	 * @param DateTime $time
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setTime($time) {
+		$this->time = $time;
+		return $this;
+	}
 
-    /**
-     * @return DateTime
-     */
-    public function getTime() {
-        return $this->time;
-    }
+	/**
+	 * @return DateTime
+	 */
+	public function getTime() {
+		return $this->time;
+	}
 
-    /**
-     * @param string $website
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setWebsite($website) {
-        $this->website = $website;
-        return $this;
-    }
+	/**
+	 * @param string $website
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setWebsite($website) {
+		$this->website = $website;
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getWebsite() {
-        return $this->website;
-    }
+	/**
+	 * @return string
+	 */
+	public function getWebsite() {
+		return $this->website;
+	}
 
 	/**
 	 * @return string
 	 */
 	public function getNumberOfGenuineComments() {
-		if(!$this->numberOfGenuineComments) {
+		if (!$this->numberOfGenuineComments) {
 			$this->numberOfGenuineComments = $this->commentRepository->countApprovedByEmail($this->email);
 		}
 		return $this->numberOfGenuineComments;
 	}
 
-    /**
-     * @param string $ip
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setIp($ip) {
-        $this->ip = $ip;
-        return $this;
-    }
+	/**
+	 * @param string $ip
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setIp($ip) {
+		$this->ip = $ip;
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getIp() {
-        return $this->ip;
-    }
+	/**
+	 * @return string
+	 */
+	public function getIp() {
+		return $this->ip;
+	}
 
-    /**
-     * @param boolean $approved
-     * @return Tx_Commentsplus_Domain_Model_Comment
-     */
-    public function setApproved($approved) {
-        $this->approved = $approved;
-        return $this;
-    }
+	/**
+	 * @param boolean $approved
+	 * @return Tx_Commentsplus_Domain_Model_Comment
+	 */
+	public function setApproved($approved) {
+		$this->approved = $approved;
+		return $this;
+	}
 
-    /**
-     * @return boolean
-     */
-    public function getApproved() {
-        return $this->approved;
-    }
+	/**
+	 * @return boolean
+	 */
+	public function getApproved() {
+		return $this->approved;
+	}
 
 	/**
 	 * No idea, but this is needed
 	 */
-	public function __construct(){
+	public function __construct() {
 	}
 
 }
